@@ -7,6 +7,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using System.Threading;
+using Taxi.Services;
 
 namespace Taxi.Droid
 {
@@ -15,6 +16,9 @@ namespace Taxi.Droid
 	{
         private Button myBtnSignUp;
         private Button myBtnLogin;
+
+        private EditText txtUsername;
+        private EditText txtPassword;
 
         protected override void OnCreate (Bundle bundle)
 		{
@@ -35,12 +39,15 @@ namespace Taxi.Droid
             };
 
             myBtnLogin = FindViewById<Button>(Resource.Id.btnSignIn);
+            txtUsername = FindViewById<EditText>(Resource.Id.txtUserNameLogin);
+            txtPassword = FindViewById<EditText>(Resource.Id.txtPasswordLogin);
             myBtnLogin.Click += MyBtnLogin_Click;
 		}
 
         private void MyBtnLogin_Click(object sender, EventArgs e)
         {
             Intent intent = new Intent(this, typeof(Home));
+            var test = HttpController.createUrlEnconde(txtUsername.Text + ',' + txtPassword.Text);
             this.StartActivity(intent);
             this.Finish();
         }
@@ -48,8 +55,13 @@ namespace Taxi.Droid
         private void SignUp_mySignUpEventCompleted(object sender, OnSignUpEventArgs e)
         {
             Console.WriteLine(e.FirstName);
+            Console.WriteLine(e.LastName);
+            Console.WriteLine(e.ID);
             Console.WriteLine(e.Email);
             Console.WriteLine(e.Password);
+            var test =  HttpController.createUrlEnconde(e.FirstName + ',' + e.LastName
+                + ',' + e.ID + ',' + e.Email + ',' + e.Password); 
+
         }
 
         private void Request()
