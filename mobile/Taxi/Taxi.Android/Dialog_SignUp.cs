@@ -15,6 +15,8 @@ namespace Taxi.Droid
     public class OnSignUpEventArgs : EventArgs
     {
         private string myFirstName;
+        private string myLastName;
+        private string myID;
         private string myEmail;
         private string myPassword;
 
@@ -22,6 +24,18 @@ namespace Taxi.Droid
         {
             get { return myFirstName; }
             set { myFirstName = value; }
+        }
+
+        public string LastName
+        {
+            get { return myLastName; }
+            set { myLastName = value; }
+        }
+
+        public string ID
+        {
+            get { return myID; }
+            set { myID = value; }
         }
 
         public string Email
@@ -36,17 +50,21 @@ namespace Taxi.Droid
             set { myPassword = value; }
         }
 
-        public OnSignUpEventArgs(string firstName, string email, string password) : base()
+        public OnSignUpEventArgs(string firstName, string lastName, string id, string email, string password) : base()
         {
             FirstName = firstName;
             Email = email;
             Password = password;
+            LastName = lastName;
+            ID = id;
         }
     }
     class Dialog_SignUp : DialogFragment
     {
         private Button myBtnSignUp;
         private EditText myTextFirstName;
+        private EditText myTextLastName;
+        private EditText myTextID;
         private EditText myTextEmail;
         private EditText myTextPassword;
 
@@ -59,6 +77,8 @@ namespace Taxi.Droid
             var view = inflater.Inflate(Resource.Layout.Dialog_sign_up, container, false);
 
             myTextFirstName = view.FindViewById<EditText>(Resource.Id.txtFirstName);
+            myTextLastName = view.FindViewById<EditText>(Resource.Id.txtLastName);
+            myTextID = view.FindViewById<EditText>(Resource.Id.txtUserID);
             myTextEmail = view.FindViewById<EditText>(Resource.Id.txtEmail);
             myTextPassword = view.FindViewById<EditText>(Resource.Id.txtPassword);
             myBtnSignUp = view.FindViewById<Button>(Resource.Id.btnSignUpFragment);
@@ -70,7 +90,7 @@ namespace Taxi.Droid
         void myBtnSignUpClick(object sender, EventArgs e)
         {
             //user clicked on sign up
-            mySignUpEventCompleted.Invoke(this, new OnSignUpEventArgs(myTextFirstName.Text, myTextEmail.Text, myTextPassword.Text));
+            mySignUpEventCompleted.Invoke(this, new OnSignUpEventArgs(myTextFirstName.Text, myTextLastName.Text, myTextID.Text, myTextEmail.Text, myTextPassword.Text));
             this.Dismiss();
         }
 
